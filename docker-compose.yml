@@ -1,0 +1,27 @@
+nginx:
+  build: ./videostreaming
+  ports:
+    - "1935:1935"
+  volumes:
+    - ./videostreaming/videos:/var/mp4s
+  command: /usr/local/nginx-streaming/sbin/nginx
+
+neo4j:
+  image: "neo4j:3.0.6-enterprise"
+  ports:
+    - "7474:7474"
+    - "7687:7687"
+  volumes:
+    - ./neo4j/data:/data
+    - ./neo4j/logs:/logs
+    - ./neo4j/import:/var/lib/neo4j/import
+    - ./neo4j/conf/:/conf
+
+# jenkins:
+#   image: "jenkins"
+#   ports:
+#     - "8080:8080"
+#     - "50000:50000"
+#   #this may cause volumes permission error, sudo chown 1000 volumes_dir  will fix it ,but it seems only works for Linux
+#   volumes:
+#     - $PWD/jenkins:/var/jenkins_home
